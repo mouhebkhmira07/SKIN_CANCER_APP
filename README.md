@@ -45,6 +45,23 @@ The app includes:
 - Route: `/patients`
 - Chronological list of all analyses
 - Quick navigation to individual report detail pages
+## Screenshots
+Add your real UI captures in `docs/screenshots/` and keep these filenames to render automatically on GitHub.
+
+### Login
+![Login screen](docs/screenshots/login.png)
+
+### Dashboard
+![Dashboard overview](docs/screenshots/dashboard.png)
+
+### New Analysis
+![Prediction form](docs/screenshots/predict.png)
+
+### Result Report
+![Analysis result](docs/screenshots/result.png)
+
+### Patients History
+![Patients list](docs/screenshots/patients.png)
 
 ## Tech Stack
 - Python + Flask
