@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Dashboard - SkinScan AI</title>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-brand"><i class="fas fa-microscope"></i> SkinScan AI</div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard" class="nav-link active"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="/predict" class="nav-link"><i class="fas fa-plus-circle"></i> Nouvelle Analyse</a></li>
+                <li><a href="/patients" class="nav-link"><i class="fas fa-users"></i> Liste Patients</a></li>
+                <li><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header-title">
+                <h1>Tableau de Bord Médical</h1>
+                <p>Statistiques et analyses en temps réel</p>
+            </div>
+
+            <!-- Affichage messages flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-alert flash-{{ category }}">
+                            <i class="fas fa-info-circle"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <i class="fas fa-folder-open"></i>
+                    <span class="number">{{ total }}</span>
+                    <span class="label">Total Analyses</span>
+                </div>
+                <div class="stat-card" style="border-bottom-color: #e74c3c;">
+                    <i class="fas fa-virus" style="color: #e74c3c;"></i>
+                    <span class="number">{{ m_count }}</span>
+                    <span class="label">Cas Malignants</span>
+                </div>
+                <div class="stat-card" style="border-bottom-color: #2ecc71;">
+                    <i class="fas fa-check-circle" style="color: #2ecc71;"></i>
+                    <span class="number">{{ b_count }}</span>
+                    <span class="label">Cas Bénins</span>
+                </div>
+            </div>
+
+            <!-- Barre de progression globale -->
+            {% if total > 0 %}
+            <div class="analysis-container" style="margin-top: 40px;">
+                <h3 style="margin-bottom: 25px; font-size: 18px; color: #2c3e50;">
+                    <i class="fas fa-chart-bar" style="color: #3498db;"></i> Répartition des Diagnostics
+                </h3>
+                <div class="meter-section" style="margin: 0; max-width: 100%;">
+                    <div class="meter-header">
+                        <span>Bénins ({{ b_count }})</span>
+                        <span>Malignants ({{ m_count }})</span>
+                    </div>
+                    <div class="progress-track" style="height: 20px;">
+                        <div class="progress-fill" style="width: {{ (b_count / total * 100)|round(1) }}%; background: #2ecc71;"></div>
+                    </div>
+                </div>
+                <div style="margin-top: 20px; text-align: center;">
+                    <a href="/patients" class="btn-login" style="width: auto; padding: 12px 30px; text-decoration: none; display: inline-block;">
+                        <i class="fas fa-list"></i> Voir tous les patients
+                    </a>
+                    <a href="/predict" class="btn-login" style="width: auto; padding: 12px 30px; text-decoration: none; display: inline-block; margin-left: 15px; background: #2ecc71;">
+                        <i class="fas fa-plus"></i> Nouvelle Analyse
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="analysis-container" style="margin-top: 40px; text-align: center;">
+                <i class="fas fa-database" style="font-size: 60px; color: #bdc3c7; margin-bottom: 20px;"></i>
+                <h3 style="color: #95a5a6;">Aucune analyse effectuée</h3>
+                <p style="color: #bdc3c7; margin: 15px 0;">Commencez par analyser une image dermatologique.</p>
+                <a href="/predict" class="btn-login" style="width: auto; padding: 12px 30px; text-decoration: none; display: inline-block; margin-top: 10px;">
+                    <i class="fas fa-plus-circle"></i> Lancer une Analyse
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

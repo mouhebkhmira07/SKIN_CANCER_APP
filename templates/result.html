@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Résultat d'Analyse - SkinScan AI</title>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-brand"><i class="fas fa-stethoscope"></i> SkinScan AI</div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard" class="nav-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="/predict" class="nav-link active"><i class="fas fa-plus-circle"></i> Nouvelle Analyse</a></li>
+                <li><a href="/patients" class="nav-link"><i class="fas fa-users"></i> Patients</a></li>
+                <li style="margin-top: auto;"><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header-title">
+                <h1>Rapport Médical Détallé</h1>
+                <p>Patient: <strong>{{ report.name }}</strong> | ID: #{{ report.id }}</p>
+            </div>
+
+            <div class="analysis-container">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <span class="status-badge {{ 'malignant' if report.result == 'Malignant' else 'benign' }}">
+                        <i class="fas {{ 'fa-exclamation-triangle' if report.result == 'Malignant' else 'fa-check-circle' }}"></i>
+                        Verdict IA: {{ report.result }}
+                    </span>
+                </div>
+
+                <div class="comparison-grid">
+                    <div class="image-frame" style="position: relative;">
+                        <div class="scan-line"></div>
+                        <img src="{{ url_for('static', filename='uploads/' + report.image_path) }}" alt="Lesion Image">
+                        <span class="frame-label">Visualisation de la Lésion</span>
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <div class="stat-card" style="border-bottom: none; background: #f8fafc; margin-bottom: 20px;">
+                            <span class="label">Score de Confiance</span>
+                            <span class="number" style="color: {{ '#e74c3c' if report.result == 'Malignant' else '#2ecc71' }}">
+                                {{ report.confidence }}%
+                            </span>
+                        </div>
+                        
+                        <div class="meter-section" style="margin: 0;">
+                            <div class="meter-header">
+                                <span>Fiabilité du Diagnostic</span>
+                                <span>{{ report.confidence }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill" style="width: {{ report.confidence }}%; background: {{ '#e74c3c' if report.result == 'Malignant' else '#2ecc71' }}"></div>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 20px; font-size: 13px; color: #7f8c8d; line-height: 1.6;">
+                            <i class="fas fa-info-circle"></i> Ce résultat est basé sur un modèle de Deep Learning (VGG16). 
+                            Une confirmation par biopsie est fortement recommandée en cas de score élevé.
+                        </p>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; padding-top: 25px; border-top: 1px solid #eee;">
+                    <button onclick="window.print()" class="btn-login" style="width: auto; background: #2c3e50; padding: 12px 25px;">
+                        <i class="fas fa-print"></i> Imprimer
+                    </button>
+                    <a href="/predict" class="btn-login" style="width: auto; text-decoration: none; padding: 12px 25px;">
+                        <i class="fas fa-redo"></i> Nouveau Scan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

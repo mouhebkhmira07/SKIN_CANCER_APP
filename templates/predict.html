@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>SkinScan AI - Nouvelle Analyse</title>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fas fa-microscope"></i> SkinScan AI
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li class="nav-item"><a href="/predict" class="nav-link active"><i class="fas fa-plus-circle"></i> Nouvelle Analyse</a></li>
+                <li class="nav-item"><a href="/patients" class="nav-link"><i class="fas fa-users"></i> Liste Patients</a></li>
+                <li class="nav-item" style="margin-top: auto;"><a href="/logout" class="nav-link"><i class="fas fa-sign-out-alt"></i> Déconnexion</a></li>
+            </ul>
+        </div>
+
+        <div class="main-content">
+            <div class="header-title">
+                <h1>Nouvelle Analyse Dermatologique</h1>
+                <p>Téléchargez une image claire de la lésion pour obtenir un diagnostic assisté par IA.</p>
+            </div>
+
+            <!-- Affichage messages flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-alert flash-{{ category }}" style="max-width: 1100px; width: 100%;">
+                            <i class="fas fa-exclamation-circle"></i> {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <div class="analysis-container">
+                <form action="/predict" method="POST" enctype="multipart/form-data" id="uploadForm">
+                    <div class="image-frame" id="dropZone" style="cursor: pointer; padding: 60px;">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 50px; color: #3498db; margin-bottom: 20px;"></i>
+                        <h3 id="fileNameDisplay">Cliquez ou glissez une image ici</h3>
+                        <p style="font-size: 13px; color: #95a5a6; margin-top: 8px;">Format supporté: JPG, PNG (Max 5MB)</p>
+                        <input type="file" name="file" id="fileInput" hidden required 
+                               accept=".jpg,.jpeg,.png" onchange="updateFileName()">
+                    </div>
+
+                    <!-- Prévisualisation de l'image -->
+                    <div id="previewContainer" style="display: none; margin-top: 20px; text-align: center;">
+                        <img id="imagePreview" style="max-height: 200px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+                    </div>
+
+                    <div style="margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;">
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 700; color: #2c3e50; font-size: 13px; margin-bottom: 8px; display: block;">
+                                <i class="fas fa-user" style="position: static; transform: none; margin-right: 5px;"></i> Nom du Patient
+                            </label>
+                            <input type="text" name="patient_name" placeholder="Ex: Jean Dupont" style="padding-left: 15px;" required>
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label style="font-weight: 700; color: #2c3e50; font-size: 13px; margin-bottom: 8px; display: block;">
+                                <i class="fas fa-birthday-cake" style="position: static; transform: none; margin-right: 5px;"></i> Âge
+                            </label>
+                            <input type="number" name="patient_age" placeholder="Ex: 45" min="1" max="120" style="padding-left: 15px;">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; text-align: center;">
+                        <button type="submit" class="btn-login" style="width: auto; padding: 15px 60px;" id="submitBtn">
+                            <i class="fas fa-brain"></i> Lancer l'analyse IA
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-top: 30px; color: #95a5a6; font-size: 12px; max-width: 600px; text-align: center;">
+                <i class="fas fa-info-circle"></i> Cette analyse est fournie à titre indicatif.
+                Veuillez consulter un dermatologue certifié pour un diagnostic définitif.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const previewContainer = document.getElementById('previewContainer');
+        const imagePreview = document.getElementById('imagePreview');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Clic sur la zone = ouvre le sélecteur de fichier
+        dropZone.onclick = () => fileInput.click();
+
+        function updateFileName() {
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileNameDisplay.innerHTML = `<span style="color: #2ecc71"><i class="fas fa-check-circle"></i> Image sélectionnée: ${file.name}</span>`;
+
+                // Prévisualisation de l'image
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    imagePreview.src = e.target.result;
+                    previewContainer.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Affichage de chargement au submit
+        document.getElementById('uploadForm').onsubmit = () => {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyse en cours...';
+            submitBtn.disabled = true;
+        };
+
+        // Drag & Drop support
+        dropZone.ondragover = (e) => { e.preventDefault(); dropZone.style.background = '#e8f4fd'; };
+        dropZone.ondragleave = () => { dropZone.style.background = ''; };
+        dropZone.ondrop = (e) => {
+            e.preventDefault();
+            dropZone.style.background = '';
+            fileInput.files = e.dataTransfer.files;
+            updateFileName();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Environnement virtuel Python
+venv/
+env/
+.env/
+
+# Base de données locale SQLite
+*.db
+*.sqlite3
+
+# Modèle IA (trop lourd pour GitHub - 130MB)
+model/*.h5
+model/*.pt
+model/*.pkl
+
+# Images uploadées par les utilisateurs
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Fichiers Python compilés
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Fichiers système Windows
+Thumbs.db
+desktop.ini
+
+# VS Code
+.vscode/
+
+# Logs
+*.log

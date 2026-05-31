@@ -1,0 +1,307 @@
+/* =========================================
+   MEDICAL PROFESSIONAL SUITE - FULL CSS
+   ========================================= */
+
+/* 1. Reset & Global - Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Inter:wght@400;600;800&display=swap');
+
+* {
+    margin: 0; padding: 0; box-sizing: border-box;
+}
+
+:root {
+    --primary: #3498db;        /* Blue Medical */
+    --primary-dark: #2980b9;
+    --bg-light: #f8fafc;       /* Fond andhef */
+    --text-dark: #2c3e50;
+    --text-muted: #95a5a6;
+    --white: #ffffff;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+body {
+    background: var(--bg-light);
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-dark);
+    min-height: 100vh;
+}
+
+/* 2. LOGIN PAGE DESIGN (Centered) */
+.login-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top right, #ffffff 0%, #e0eafc 100%);
+}
+
+.login-box {
+    background: var(--white);
+    padding: 50px 40px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(44, 62, 80, 0.08);
+    width: 420px;
+    text-align: center;
+    border: 1px solid rgba(224, 234, 252, 0.5);
+}
+
+.icon-header {
+    font-size: 60px;
+    color: var(--primary);
+    margin-bottom: 20px;
+    filter: drop-shadow(0 5px 10px rgba(52, 152, 219, 0.2));
+}
+
+.btn-login {
+    width: 100%;
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.2);
+}
+
+.btn-login:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* 3. APP LAYOUT (Sidebar + Content) */
+.app-container {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 280px;
+    background: var(--white);
+    height: 100vh;
+    position: fixed;
+    padding: 35px 25px;
+    border-right: 1px solid #edf2f7;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-brand {
+    font-family: 'Inter', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 45px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-menu { list-style: none; }
+.nav-link {
+    text-decoration: none;
+    color: #7f8c8d;
+    padding: 14px 20px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: #f0f7ff;
+    color: var(--primary);
+}
+
+/* 4. DASHBOARD CONTENT (Centered & Pro) */
+.main-content {
+    margin-left: 280px;
+    padding: 50px;
+    width: calc(100% - 280px);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Kol chay f el Milieu */
+}
+
+.header-title {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.header-title h1 { font-size: 32px; color: var(--text-dark); margin-bottom: 10px; }
+.header-title p { color: var(--text-muted); font-size: 16px; }
+
+/* Dashboard Cards Grid (kima screenshot ffcc9f) */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.stat-card {
+    background: var(--white);
+    padding: 35px 20px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border-bottom: 5px solid var(--primary);
+    transition: 0.3s;
+}
+
+.stat-card:hover { transform: translateY(-8px); }
+.stat-card i { font-size: 35px; color: var(--primary); margin-bottom: 20px; }
+.stat-card .number { font-size: 40px; font-weight: 800; display: block; color: var(--text-dark); }
+.stat-card .label { font-size: 14px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+
+/* 5. ANALYSIS & RESULT DESIGN */
+.analysis-container {
+    background: var(--white);
+    width: 100%;
+    max-width: 1100px;
+    padding: 45px;
+    border-radius: 30px;
+    margin-top: 40px;
+    box-shadow: var(--shadow);
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin: 35px 0;
+}
+
+.image-frame {
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 20px;
+    border: 2px dashed #e2e8f0;
+    text-align: center;
+}
+
+.image-frame img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.frame-label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 700;
+    color: var(--primary);
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
+/* Confidence Graphique (Professional Meter) */
+.meter-section {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.meter-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.progress-track {
+    height: 14px;
+    background: #edf2f7;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--success));
+    transition: width 2s cubic-bezier(0.1, 0.5, 0.5, 1);
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 10px 30px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 15px;
+    display: inline-block;
+}
+
+.status-badge.malignant { background: #fff5f5; color: var(--danger); border: 1px solid #feb2b2; }
+.status-badge.benign { background: #f0fff4; color: var(--success); border: 1px solid #9ae6b4; }
+
+/* Scan Line Animation (kima f image_ff01c4) */
+.scan-line {
+    position: absolute;
+    width: 100%; height: 3px;
+    background: var(--primary);
+    box-shadow: 0 0 15px var(--primary);
+    animation: scanMove 3s infinite linear;
+}
+
+@keyframes scanMove {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* 6. FLASH ALERTS */
+.flash-alert {
+    padding: 12px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.flash-danger  { background: #fff5f5; color: #e74c3c; border: 1px solid #feb2b2; }
+.flash-success { background: #f0fff4; color: #2ecc71; border: 1px solid #9ae6b4; }
+.flash-warning { background: #fffbf0; color: #f39c12; border: 1px solid #fde68a; }
+.flash-info    { background: #f0f7ff; color: #3498db; border: 1px solid #bee3f8; }
+
+/* 7. INPUT GROUP (login form) */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.input-group i {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+.input-group input {
+    width: 100%;
+    padding: 14px 14px 14px 44px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    transition: 0.3s;
+    outline: none;
+    background: #f8fafc;
+    color: var(--text-dark);
+}
+.input-group input:focus {
+    border-color: var(--primary);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
